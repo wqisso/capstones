@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.postgraduate.mapper.TbUsersMapper">
+	
+	<update id="updateById" parameterType="com.postgraduate.pojo.TbUsers">
+		update `users` set 
+		`password`=#{password}
+		where `username`=#{username}
+	</update>
+	
+</mapper>

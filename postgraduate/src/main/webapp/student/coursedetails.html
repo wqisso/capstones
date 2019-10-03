@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>学生选课</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+	
+	<!-- 分页组件开始 -->
+	<script src="../plugins/angularjs/pagination.js"></script>
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+	<!-- 分页组件结束 -->
+	
+    <script type="text/javascript" src="../js/base.js">  </script>
+	<script type="text/javascript" src="../js/service/lesteaService.js">  </script>
+	<script type="text/javascript" src="../js/controller/lesteaController.js">  </script>
+<script type="text/javascript" src="../js/service/loginService.js"></script>
+	<script type="text/javascript" src="../js/controller/indexController.js"></script>
+	<script type="text/javascript" src="../js/service/userStudentService.js"></script>
+	<script type="text/javascript" src="../js/controller/userStudentController.js"></script>
+	<script type="text/javascript" src="../js/service/selCourseService.js"></script>
+	<script type="text/javascript" src="../js/controller/selCourseController.js"></script>
+    
+</head>
+<body class="hold-transition skin-red sidebar-mini" ng-app="postgraduate"  ng-controller="userStudentController" ng-init="showLoginName()">
+  <!-- .box-body --> 
+  <div ng-controller="selCourseController" >
+  
+  
+                    <div class="box-header with-border">
+                        <h3 class="box-title">学生已选课程</h3>
+                    </div>
+
+                    <div class="box-body">
+
+                        <!-- 数据表格 -->
+                        <div class="table-box">
+
+                            <!--工具栏-->
+                            <div class="pull-left">
+                                <div class="form-group form-inline">
+                                    <div class="btn-group"> 
+                                    	<button type="button" class="btn btn-default" title="删除"  ng-click="selectAll(login.loginName)"><i class="fa fa-trash-o"></i>查看已选课程</button>      
+                                        <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!--工具栏/-->
+                            
+                            
+							
+							
+							
+						
+							<div>
+			                  <!--数据列表-->
+			                  <table id="dataList" class="table table-bordered table-striped table-hover dataTable" >
+	
+			                      <thead>
+			                          <tr>
+			                              
+										  <th class="sorting_asc">课程代码</th>		
+										  <th class="sorting_asc">课程名称</th>							      
+									      <th class="sorting">老师工号</th>
+								    	  <th class="sorting">老师姓名</th>
+									      <th class="sorting">选课状态</th>									     				
+					                      <th class="text-center">操作</th>
+			                          </tr>
+			                      </thead>
+			                      <tbody>
+			                          <tr ng-repeat="entity in list" >
+			                              
+			                              			                            
+				                          <td>{{entity.tbLesson.id}}</td>
+				                          <td>{{entity.tbLesson.name}}</td>			
+									      <td>{{entity.tbTeacher.id}}</td>
+									      <td>{{entity.tbTeacher.name}}</td>
+									      <td>{{state[entity.checked]}}</td>						     
+
+
+		                                  <td class="text-center">                       
+		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  ng-click="selectOneLes(entity.tbLesson.id)">课程详情</button> 
+		                                 	  
+		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  ng-click="studelete(entity.stuid,entity.lesteaid)">删除</button>                                           
+		                                  </td>
+		                                  
+			                          </tr>
+									  
+			                      </tbody>
+			                  </table>
+			                  </div>
+			                  <!--数据列表/-->                        
+							  <!-- 分页 -->
+							  </div>
+						</div>
+
+                        <!-- 数据表格 /-->
+                       {{entity.id}}
+                        
+                        
+                        
+                  
+ 
+                  
+                    <!-- /.box-body -->
+ 
+  <!-- 编辑窗口--> 
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" >
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">课程详情</h3>
+		</div>
+		<div class="modal-body">		
+			<table class="table table-bordered table-striped"  width="2000px">
+				<thead>
+                    <tr>
+					  <th class="sorting_asc">课程代码</th>
+				      <th class="sorting">课程名称</th>									      
+				      <th class="sorting">课程类别</th>
+				      <th class="sorting">学分</th>
+				      <th class="sorting">学时</th>
+				      <th class="sorting">开课学期</th>
+				      <th class="sorting">开课单位</th>
+				      <th class="sorting">考核方式</th>
+				      <th class="sorting">备注</th>  									     				
+                   </tr>
+			    </thead>
+		      	<tr >
+		      		<td>{{lentity.id}}</td>
+			        <td>{{lentity.name}}</td>									     
+                    <td>{{lentity.category}}</td>
+                    <td>{{lentity.credit}}</td>	
+                    <td>{{lentity.hours}}</td>	
+                    <td>{{lentity.semester}}</td>	
+                    <td>{{lentity.open_unit}}</td>	
+                    <td>{{lentity.exam_method}}</td>
+                    <td>{{lentity.remarks}}</td>
+				      
+		      	</tr>		      	
+		      	
+			 </table>				
+		</div>
+
+	  
+	</div>
+</div> 
+ 
+ 
+ 
+  </div>   
+  
+       
+</body>    
+</html>

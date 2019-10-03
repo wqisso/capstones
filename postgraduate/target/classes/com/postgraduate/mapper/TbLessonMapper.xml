@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.postgraduate.mapper.TbLessonMapper">
+	<select id="selectAll" resultType="com.postgraduate.pojo.TbLesson">
+		select * from tb_lesson
+	</select>
+	<select id="selectOne" resultType="com.postgraduate.pojo.TbLesson" parameterType="java.lang.Integer">
+		select * from tb_lesson where id = #{id}
+	</select>
+	<select id="selectPart" resultType="com.postgraduate.pojo.TbLesson" parameterType="com.postgraduate.pojo.TbLesson">
+		select * from tb_lesson
+		<where>
+			<if test="id != null">
+				id like concat(concat("%",#{id}),"%")
+			</if>
+			<if test="name != null">
+				and name like concat(concat("%",#{name}),"%")
+			</if>
+		</where>
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from tb_lesson where id = #{id}
+	</delete>
+	
+	<insert id="insert" parameterType="com.postgraduate.pojo.TbLesson">
+		insert into `tb_lesson`(`id`,`name`,`category`,`credit`,`hours`,`semester`,`open_unit`,`exam_method`,`state`,`remarks`) 
+		values(#{id},#{name},#{category},#{credit},#{hours},#{semester},#{open_unit},#{exam_method},#{state},#{remarks})		
+	</insert>
+	
+	<update id="updatebyid" parameterType="com.postgraduate.pojo.TbLesson">
+		update `tb_lesson` set 
+		`name`=#{name},
+    	`category`=#{category},
+    	`credit`=#{credit},
+   	 	`hours`=#{hours},
+    	`semester`=#{semester},
+    	`open_unit`=#{open_unit},
+    	`exam_method`=#{exam_method},
+    	`state`=#{state},
+    	`remarks`=#{remarks} 
+		where `id`=#{id}
+	</update>
+</mapper>

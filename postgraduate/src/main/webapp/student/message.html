@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>个人资料</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+  
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+   
+     <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+	<script type="text/javascript" src="../js/base.js"></script>
+	<script type="text/javascript" src="../js/service/loginService.js"></script>
+	<script type="text/javascript" src="../js/controller/indexController.js"></script>
+	<script type="text/javascript" src="../js/service/userStudentService.js"></script>
+	<script type="text/javascript" src="../js/controller/userStudentController.js"></script>
+</head>
+
+<body class="hold-transition skin-red sidebar-mini" ng-app="postgraduate" ng-controller="userStudentController">
+
+			<div ng-init="showLoginName()">
+
+            <!-- 正文区域 -->
+            <section class="content">
+
+                <div class="box-body">
+
+                    <!--tab页-->
+                    <div class="nav-tabs-custom">
+
+                        <!--tab头-->
+                        <ul class="nav nav-tabs">
+                       		
+                            <li class="active">
+                                <a href="#home" data-toggle="tab">个人信息</a>                             
+                            </li>                            
+                        </ul>
+                        <!--tab头/-->
+						
+                        <!--tab内容-->
+                        <div class="tab-content">
+
+                            <!--表单内容-->
+                            <div class="tab-pane active" id="home" ng-repeat="loginId in login">
+                                <div class="row data-type" ng-init="selectOne(loginId)">                                  
+
+                                    <div class="col-md-2 title">学号</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" ng-model="entity.id"  placeholder="学号" value="">
+                                    </div>
+									
+									<div class="col-md-2 title">姓名</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" ng-model="entity.name" placeholder="姓名" value="">
+                                    </div>
+                                    
+                                    <div class="col-md-2 title">性别</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" ng-model="entity.sex"   placeholder="性别" value="">
+                                    </div>
+                                    
+                                    <div class="col-md-2 title">出生日期</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" ng-model="entity.birth"   placeholder="出生日期" value="">
+                                    </div>
+                                    
+                                    <div class="col-md-2 title">民族</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" ng-model="entity.nation"  placeholder="民族" value="">
+                                    </div>
+                                    
+                                    <div class="col-md-2 title">培养方式</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" ng-model="entity.educate"  placeholder="培养方式" value="">
+                                    </div>
+                                    
+                                    <div class="col-md-2 title">籍贯</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" ng-model="entity.place"   placeholder="籍贯" value="">
+                                    </div>
+                                    
+                                    <div class="col-md-2 title">政治面貌</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" ng-model="entity.political_appearance"  placeholder="政治面貌" value="">
+                                    </div>
+                                    
+                                    <div class="col-md-2 title">研究生类别</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" ng-model="entity.category"  placeholder="研究生类别" value="">
+                                    </div>
+                                     
+                                    <div class="col-md-2 title">专业</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" ng-model="entity.major"  placeholder="专业" value="">
+                                    </div>
+                                    
+ 									<div class="col-md-2 title">导师</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" ng-model="entity.teacher_id" placeholder="导师" value="">
+                                    </div>
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
+                            
+                            
+                           
+                            
+                        </div>
+                        <!--tab内容/-->
+						<!--表单内容/-->
+							 
+                    </div>
+                 	
+                 	
+                 	
+                 	
+                   </div>
+                 
+			
+            </section>
+            <!-- 正文区域 /-->
+			
+       </div>
+</body>
+
+</html>

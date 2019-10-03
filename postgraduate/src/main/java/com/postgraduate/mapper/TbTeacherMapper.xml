@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.postgraduate.mapper.TbTeacherMapper">
+	<select id="selectAll" resultType="com.postgraduate.pojo.TbTeacher">
+		select * from tb_teacher
+	</select>
+	<select id="selectOne" resultType="com.postgraduate.pojo.TbTeacher" parameterType="java.lang.Integer">
+		select * from tb_teacher where id = #{id}
+	</select>
+	<select id="selectPart" resultType="com.postgraduate.pojo.TbTeacher" parameterType="com.postgraduate.pojo.TbTeacher">
+		select * from tb_teacher
+		<where>
+			<if test="id != null">
+				id like concat(concat("%",#{id}),"%")
+			</if>
+			<if test="name != null">
+				and name like concat(concat("%",#{name}),"%")
+			</if>
+			<if test="political_appearance != null">
+				and political_appearance like concat(concat("%",#{political_appearance}),"%")
+			</if>
+		</where>
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from tb_teacher where id = #{id}
+	</delete>
+	
+	<insert id="insert" parameterType="com.postgraduate.pojo.TbTeacher">
+		insert into `tb_teacher`(`name`,`sex`,`birth`,`nation`,`place`,`political_appearance`,`title`,`years`,`direction`,`email`)
+		VALUES(#{name},#{sex},#{birth},#{nation},#{place},#{political_appearance},#{title},#{years},#{direction},#{email})
+	</insert>
+	
+	<update id="updatebyid" parameterType="com.postgraduate.pojo.TbTeacher">
+		update  `tb_teacher` set 
+		`name`=#{name},
+		`sex`=#{sex},
+		`birth`=#{birth},
+		`nation`=#{nation},
+		`place`=#{place},
+		`political_appearance`=#{political_appearance},
+		`title`=#{title},
+		`years`=#{years},
+		`direction`=#{direction},
+		`email`=#{email}
+		where `id`=#{id}
+	</update>
+	<update id="updatePassById" parameterType="com.postgraduate.pojo.TbTeacher">
+		update `tb_teacher` set 
+		`password`=#{password}
+		where `id`=#{id}
+	</update>
+	
+</mapper>

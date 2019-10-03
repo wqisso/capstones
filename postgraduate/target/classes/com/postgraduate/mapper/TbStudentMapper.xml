@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.postgraduate.mapper.TbStudentMapper">
+	
+	<resultMap type="com.postgraduate.pojo.TbStudent" id="TbStudentMap">
+		<id column="id" property="id"/>  
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="sex" property="sex"/>
+        <result column="birth" property="birth"/>
+        <result column="nation" property="nation"/>
+        <result column="educate" property="educate"/>
+        <result column="place" property="place"/>
+        <result column="political_appearance" property="political_appearance"/>
+        <result column="category" property="category"/>
+        <result column="major" property="major"/>
+        <result column="teacher_id" property="teacher_id"/>
+        <association property="tbUsers"  javaType="com.postgraduate.pojo.TbUsers">  
+            <!-- id：关联查询用户的唯 一标识  
+            column：指定唯 一标识用户信息的列  
+            javaType：映射到user的哪个属性  
+             -->  
+            <id column="username" property="username"/>  
+            <result column="password" property="password"/>  
+            <result column="enabled" property="enabled"/>         
+        </association> 
+	</resultMap>
+	
+	<select id="selectAll" resultMap="TbStudentMap">
+		select s.*,u.username,u.password,u.enabled from tb_student as s,users as u where s.id = u.username
+	</select>
+	<select id="selectOne" resultMap="TbStudentMap" parameterType="java.lang.Integer">
+		select s.*,u.username,u.password,u.enabled from tb_student as s,users as u where s.id = u.username and id = #{id}
+	</select>
+	<select id="selectPart" resultMap="TbStudentMap" parameterType="com.postgraduate.pojo.TbStudent">
+		select s.*,u.username,u.password,u.enabled from tb_student as s,users as u
+		<where>
+			s.id = u.username and
+			<if test="id != null">
+				id like concat(concat("%",#{id}),"%")
+			</if>
+			<if test="name != null">
+				and name like concat(concat("%",#{name}),"%")
+			</if>
+			<if test="educate != null">
+				and educate like concat(concat("%",#{educate}),"%")
+			</if>
+		</where>
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from tb_student where id = #{id}
+	</delete>
+	
+	<insert id="insert" parameterType="com.postgraduate.pojo.TbStudent">
+		insert into `tb_student`(`name`,`sex`,`birth`,`nation`,`educate`,`place`,`political_appearance`,`category`,`major`)
+		values(#{name},#{sex},#{birth},#{nation},#{educate},#{place},#{political_appearance},#{category},#{major})		
+	</insert>
+	
+	<update id="updatebyid" parameterType="com.postgraduate.pojo.TbStudent">
+		update `tb_student` set 
+		`name`=#{name},
+    	`sex`=#{sex},
+    	`birth`=#{birth},
+   	 	`nation`=#{nation},
+    	`educate`=#{educate},
+    	`place`=#{place},
+    	`political_appearance`=#{political_appearance},
+    	`category`=#{category},
+    	`major`=#{major} 
+		where `id`=#{id}
+	</update>
+	<update id="updatePassById" parameterType="com.postgraduate.pojo.TbStudent">
+		update `tb_student` set 
+		`password`=#{password}
+		where `id`=#{id}
+	</update>
+	
+</mapper>

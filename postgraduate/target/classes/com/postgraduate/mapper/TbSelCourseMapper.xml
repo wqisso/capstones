@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.postgraduate.mapper.TbSelCourseMapper">
+	<resultMap type="com.postgraduate.pojo.TbSelCourse" id="TbSelCourseMap">
+		<id column="stuid" property="stuid"/>  
+        <id column="lesteaid" property="lesteaid"/>
+        <result column="flag" property="flag"/>
+        <result column="checked" property="checked"/>
+        <association property="tbLesson"  javaType="com.postgraduate.pojo.TbLesson">  
+            <id column="lid" property="id"/>  
+            <result column="lname" property="name"/>           
+        </association>   
+        <association property="tbTeacher"  javaType="com.postgraduate.pojo.TbTeacher">  
+            <id column="tid" property="id"/>  
+            <result column="tname" property="name"/>           
+        </association> 
+	</resultMap>
+	
+	
+	<select id="selectAll" resultMap="TbSelCourseMap" parameterType="java.lang.Integer">
+	select s.*,l.id lid,l.name lname,t.id tid,t.name tname
+	from tb_selecourse s,tb_les_tea lt,tb_lesson l,tb_teacher t
+	where s.lesteaid = lt.id and
+	s.stuid = #{uid} and lt.lesid = l.id and lt.teaid = t.id
+		</select>
+
+	<select id="adminSelAll" resultMap="TbSelCourseMap" >
+	select s.*,l.id lid,l.name lname,t.id tid,t.name tname
+	from tb_selecourse s,tb_les_tea lt,tb_lesson l,tb_teacher t
+	where s.lesteaid = lt.id and
+		  lt.lesid = l.id and lt.teaid = t.id
+		</select>
+	<insert id="insert" parameterType="java.lang.Integer">
+		insert into tb_selecourse(stuid,lesteaid)
+		VALUES(#{stuid},#{lesteaid})
+	</insert>
+	
+	<insert id="update" parameterType="java.lang.Integer">
+		update tb_les_tea
+		set number = number - 1
+		where id = #{id}
+	</insert>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete 
+		from tb_selecourse as s
+		where s.stuid = #{stuid} and 
+		s.lesteaid = #{lesteaid}
+	</delete>
+</mapper>

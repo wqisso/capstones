@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.postgraduate.mapper.TbTrainMapper">
+	
+	<resultMap type="com.postgraduate.pojo.TbTrain" id="TbTrainMap">
+		<id column="id" property="id"/>  
+        <result column="years" property="years"/>
+        <result column="title" property="title"/>
+        <result column="category" property="category"/>
+        <result column="major" property="major"/>
+        <result column="target" property="target"/>
+        <result column="total" property="total"/>
+        <result column="public_lesson" property="public_lesson"/>
+        <result column="basic_theory" property="basic_theory"/>
+        <result column="select_lesson" property="select_lesson"/>
+        <result column="educate" property="educate"/>
+        <result column="paper" property="paper"/>
+        <result column="reply" property="reply"/>
+        <result column="plan" property="plan"/>
+        <result column="state" property="state"/>
+        <collection property="lesList"  ofType="com.postgraduate.pojo.TbLesson">  
+            <!-- id：关联查询用户的唯 一标识  
+            column：指定唯 一标识用户信息的列  
+            javaType：映射到user的哪个属性  
+             -->  
+            <id column="lid" property="id"/>  
+            <result column="name" property="name"/>  
+            <result column="lcategory" property="category"/>
+            <result column="credit" property="credit"/>  
+            <result column="hours" property="hours"/>  
+            <result column="semester" property="semester"/>  
+            <result column="open_unit" property="open_unit"/>  
+            <result column="exam_method" property="exam_method"/> 
+            <result column="lstate" property="state"/> 
+            <result column="remarks" property="remarks"/>           
+        </collection> 
+	</resultMap>
+	
+	<select id="selectAll" resultMap="TbTrainMap">
+		select t.*,l.id lid,l.name,l.category lcategory,l.credit,l.hours,l.semester,l.open_unit,l.exam_method,l.state lstate,l.remarks
+		from  (tb_training_program as t left join tb_les_tra as lt on lt.traid = t.id) left join tb_lesson as l on lt.lesid = l.id 
+	</select>
+	<select id="selectOne" resultMap="TbTrainMap">
+		select t.*,l.id lid,l.name,l.category lcategory,l.credit,l.hours,l.semester,l.open_unit,l.exam_method,l.state lstate,l.remarks
+		from  (tb_training_program as t left join tb_les_tra as lt on lt.traid = t.id) left join tb_lesson as l on lt.lesid = l.id
+		where  t.id = #{id}
+	
+	</select>
+	<select id="selectPart" resultMap="TbTrainMap">
+		select * from `tb_training_program` 
+		<where>
+			<if test="title != null">
+				title like concat(concat("%",#{title}),"%")
+			</if>
+			<if test="state != 5 ">
+				state like concat(concat("%",#{state}),"%")
+			</if>
+		</where>
+	</select>
+	<insert id="insert" parameterType="com.postgraduate.pojo.TbTrain">
+		insert into `tb_training_program`(`title`,`category`,`major`,`target`,`total`,`public_lesson`,`basic_theory`,`select_lesson`,`educate`,`paper`,`reply`,`plan`)
+		VALUES(#{title},#{category},#{major},#{target},#{total},#{public_lesson},#{basic_theory},#{select_lesson},#{educate},#{paper},#{reply},#{plan})
+	</insert>
+	<insert id="insertLesTra" parameterType="java.lang.Integer">
+		insert into `tb_les_tra`(`lesid`,`traid`)
+		VALUES(#{lesid},#{traid})
+	</insert>
+	<update id="updateState" parameterType="com.postgraduate.pojo.TbTrain">
+		update `tb_training_program` set state = #{state} where id = #{id}
+	</update>
+	
+</mapper>

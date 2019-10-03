@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.postgraduate.mapper.TbLesTeaMapper">
+	<resultMap type="com.postgraduate.pojo.TbLesTea" id="TbLesTeaMap">
+		<id column="id" property="id"/>  
+        <result column="lesid" property="lesid"/>
+        <result column="teaid" property="teaid"/>
+        <result column="setdate" property="setdate"/>
+        <result column="state" property="state"/>
+		<result column="number" property="number"/>
+        <association property="tbLesson"  javaType="com.postgraduate.pojo.TbLesson">  
+            <id column="lid" property="id"/>  
+            <result column="lname" property="name"/>  
+            <result column="lcategory" property="category"/>
+            <result column="lcredit" property="credit"/>
+            <result column="lhours" property="hours"/>
+            <result column="lsemester" property="semester"/>
+            <result column="lopen_unit" property="open_unit"/>
+            <result column="lexam_method" property="exam_method"/>
+            <result column="lstate" property="state"/>   
+             <result column="lremarks" property="remarks"/>     
+        </association> 
+        <association property="tbTeacher"  javaType="com.postgraduate.pojo.TbTeacher">  
+            <id column="tid" property="id"/>  
+            <result column="tname" property="name"/>           
+        </association>
+	</resultMap>
+	<select id="selectAll" resultMap="TbLesTeaMap">
+		select lt.*,l.id lid,l.`name` lname,l.category lcategory,l.credit lcredit,l.hours lhours,l.semester lsemester,l.exam_method lexam_method,t.id tid,t.`name` tname
+		from tb_lesson as l, tb_les_tea as lt, tb_teacher as t
+		where l.id = lt.lesid and
+					 lt.teaid = t.id
+	</select>
+	
+	<select id="stuSelAll" resultMap="TbLesTeaMap">
+		select lt.*,l.id lid,l.`name` lname,l.category lcategory,l.credit lcredit,l.hours lhours,l.semester lsemester,l.exam_method lexam_method,t.id tid,t.`name` tname
+		from tb_lesson as l, tb_les_tea as lt, tb_teacher as t
+		where l.id = lt.lesid and
+					 lt.teaid = t.id and lt.state = 1
+	</select>
+	
+	<select id="selectOne" resultMap="TbLesTeaMap" parameterType="java.lang.Integer">
+		select lt.*,l.id lid,l.`name` lname,l.category lcategory,l.credit lcredit,l.hours lhours,l.semester lsemester,l.exam_method lexam_method,t.id tid,t.`name` tname
+		from tb_lesson as l, tb_les_tea as lt, tb_teacher as t
+		where l.id = lt.lesid and
+			  lt.teaid = t.id and
+			  lt.id=#{id}
+	</select>
+	
+	<insert id="insertLesTea" parameterType="java.lang.Integer">
+		insert into `tb_les_tea`(`lesid`,`teaid`)
+		VALUES(#{lesid},#{teaid})
+	</insert>
+	
+	<update id="updatebyid" parameterType="com.postgraduate.pojo.TbLesTea">
+		update `tb_les_tea` set 
+		`state`=#{state}
+		where id=#{id}
+    	
+	</update>
+</mapper>
